@@ -1,0 +1,60 @@
+// SVG Grid Math
+// =============
+
+
+// SVG Column Position [function]
+// ------------------------------
+@include describe('SVG Column Position [function]') {
+  @include it('First column') {
+    @include assert-equal(
+      _susy-svg-column-position(1, $susy),
+      0,
+      'First column always has a position of zero');
+  }
+
+  @include it('First column') {
+    @include assert-equal(
+      _susy-svg-column-position(3, $susy),
+      susy-span(first 2 wide, $susy),
+      'Subtract one, and get the first/wide "push" span');
+  }
+}
+
+
+// SVG Offset [function]
+// ---------------------
+@include describe('SVG Offset [function]') {
+  @include it('No extra spread with defaults') {
+    $test: (
+      'columns': 1 1 1 1 1,
+      'gutters': 2em,
+    );
+    $test: susy-compile($test, $susy);
+
+    @include assert-false(_susy-svg-offset($test));
+  }
+
+  @include it('Container is wide') {
+    $test: (
+      'container-spread': 0,
+      'spread': 0,
+    );
+    $test: susy-compile($test, $susy);
+
+    @include assert-equal(
+      _susy-svg-offset($test),
+      susy-gutter($config: $test) / 2);
+  }
+
+  @include it('Container is wider') {
+    $test: (
+      'container-spread': 1,
+      'spread': -1,
+    );
+    $test: susy-compile($test, $susy);
+
+    @include assert-equal(
+      _susy-svg-offset($test),
+      susy-gutter($config: $test));
+  }
+}

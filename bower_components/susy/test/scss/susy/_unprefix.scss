@@ -1,0 +1,33 @@
+// Unprefix Plugin Tests
+// =====================
+
+@include describe('Unprefix') {
+  @include it('Span') {
+    $config: ('container-spread': 'wide');
+    @include assert-equal(
+      span(3, $config),
+      susy-span(3, $config),
+      'Unprefixed span() returns same result as susy-span()');
+  }
+
+  @include it('Gutter') {
+    $config: ('gutters': 0.5);
+    @include assert-equal(
+      gutter(6, $config),
+      susy-gutter(6, $config),
+      'Unprefixed gutter() returns same result as susy-gutter()');
+
+    @include assert-equal(
+      gutter(),
+      susy-gutter(),
+      'Unprefixed gutter() returns same result as susy-gutter()');
+  }
+
+  @include it('Slice') {
+    $config: ('columns': (1 1 2 3 5 8 13));
+    @include assert-equal(
+      slice('last' 4, $config),
+      susy-slice('last' 4, $config),
+      'Unprefixed slice() returns same result as susy-slice()');
+  }
+}

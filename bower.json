@@ -1,0 +1,22 @@
+{
+  "name": "learningsass",
+  "description": "this is a project to learn sass",
+  "main": "index.html",
+  "authors": [
+    "Larbi baraka"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "bourbon": "^5.0.0",
+    "susy": "^3.0.1",
+    "normalize-css": "^7.0.0"
+  }
+}

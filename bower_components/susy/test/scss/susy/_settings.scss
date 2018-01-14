@@ -1,0 +1,101 @@
+// Susy Settings Tests
+// ===================
+
+
+// Susy Settings
+// -------------
+@include describe('Susy Settings [function]') {
+
+  @include it('Default configuration') {
+    $susy: (
+      'columns': susy-repeat(4, 320px),
+      'spread': null,
+    ) !global;
+
+    @include assert-equal(
+      susy-settings(),
+      map-merge($_susy-defaults, $susy),
+      'Returns merged map of Susy default config settings');
+
+    $susy: () !global;
+  }
+
+  @include it('Configuration overrides') {
+    $override: ('container-spread': 'wider');
+
+    @include assert-equal(
+      susy-settings($override),
+      map-merge($_susy-defaults, $override),
+      'Returns merged map of Susy defaults with custom overrides');
+  }
+
+  @include it('Multiple overrides') {
+    $override1: ('container-spread': 'wider');
+    $override2: ('columns': 4em 3em 22em);
+
+    @include assert-equal(
+      susy-settings($override1, $override2),
+      map-merge(map-merge($_susy-defaults, $override1), $override2),
+      'Returns merged map of Susy defaults with multiple overrides');
+  }
+}
+
+
+
+// Susy Repeat
+// -----------
+@include describe('Repeat [function]') {
+  @include it('Repeat single values') {
+    $list: (1 1 1 1);
+    @include assert-equal(
+      susy-repeat(4),
+      $list);
+  }
+
+  @include it('Repeat list values') {
+    $list: (6em 4em 6em 4em 6em 4em 6em 4em);
+    @include assert-equal(
+      susy-repeat(4, 6em 4em),
+      $list);
+  }
+}
+
+
+
+// Susy Get
+// --------
+@include describe('Susy Get [function]') {
+  $susy: (
+    'columns': susy-repeat(12, 120px),
+    'spread': null,
+  ) !global;
+
+  @include it('Get value from user settings') {
+    @include assert-equal(
+      susy-get('columns'),
+      map-get($susy, 'columns'),
+      'Susy-get and map-get should return the same value');
+  }
+
+  @include it('Get falsey value from user settings') {
+    @include assert-equal(
+      susy-get('spread'),
+      map-get($susy, 'spread'),
+      'Susy-get and map-get should return the same value');
+  }
+
+  @include it('Get value from defaults') {
+    @include assert-equal(
+      susy-get('container-spread'),
+      map-get($_susy-defaults, 'container-spread'),
+      'Susy-get and map-get should return the same value');
+  }
+
+  @include it('Unknown setting error') {
+    @include assert-equal(
+      susy-get('wtf'),
+      'ERROR [susy-get] There is no Susy setting called `wtf`');
+  }
+
+  $susy: () !global;
+}

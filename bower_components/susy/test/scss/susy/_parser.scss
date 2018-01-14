@@ -1,0 +1,322 @@
+// Susy Parser Tests
+// =================
+
+
+// Susy Parse
+// ----------
+@include describe('Susy Parse [function]') {
+  @include it('Simple grid span') {
+    $expect: ('span': 5);
+
+    @include assert-equal(
+      susy-parse(5),
+      $expect,
+      'A single unitless number is returned as span only');
+  }
+
+  @include it('Span with symmetrical column-slice') {
+    $expect: (
+      'span': 5,
+      'columns': 12,
+    );
+
+    @include assert-equal(
+      susy-parse(5 of 12),
+      $expect,
+      'Span and symmetrical columns are properly mapped');
+  }
+
+  @include it('Span with spread') {
+    $expect: (
+      'span': 5,
+      'spread': 'wide',
+    );
+
+    @include assert-equal(
+      susy-parse(5 'wide'),
+      $expect,
+      'Span and spread are properly mapped');
+  }
+
+  @include it('Span with location and asymmetrical columns') {
+    $expect: (
+      'span': 4,
+      'location': 2,
+      'columns': (1 2 3 5 8),
+    );
+
+    @include assert-equal(
+      susy-parse(4 of (1 2 3 5 8) at 2),
+      $expect,
+      'Span, location, and asymmetrical columns are properly mapped');
+  }
+
+  @include it('Span with keyword location') {
+    $expect: (
+      'span': 4,
+      'location': 'last',
+      'columns': (1 2 3 5 8),
+    );
+
+    @include assert-equal(
+      susy-parse('last' 4 of (1 2 3 5 8)),
+      $expect,
+      'Span, keyword location, and columns are properly mapped');
+  }
+
+  @include it('Span all') {
+    $expect: (
+      'span': 'all',
+      'columns': (1 2 3 5 8),
+    );
+
+    @include assert-equal(
+      susy-parse(all of (1 2 3 5 8)),
+      $expect,
+      'Span "all" is properly mapped');
+  }
+
+  @include it('Container-spread') {
+    $expect: (
+      'span': 3,
+      'columns': 12,
+      'container-spread': 'wide',
+    );
+
+    @include assert-equal(
+      susy-parse(3 of 12 'wide'),
+      $expect,
+      'Container-spread is properly mapped');
+  }
+
+  @include it('Keywords before span') {
+    $expect: (
+      'span': 3,
+      'spread': 'wide',
+      'location': 'first',
+    );
+
+    @include assert-equal(
+      susy-parse('wide' 'first' 3),
+      $expect,
+      'Keywords can be passed in before the span value');
+  }
+
+  @include it('Explicit asymmetrical span') {
+    $span: (1 2 3 4);
+    $expect: (
+      'span': $span,
+      'columns': 12,
+    );
+
+    @include assert-equal(
+      susy-parse($span of 12),
+      $expect,
+      'Explicit asymmetrical span is parsed properly');
+  }
+
+  @include it('Parse gutters') {
+    $expect: (
+      'span': 3,
+      'gutters': 2,
+    );
+
+    @include assert-equal(
+      susy-parse(3 set-gutters 2),
+      $expect,
+      'Set-gutters keyword allows shorthand gutters');
+  }
+
+  @include it('Unknown string parsing error') {
+    @include assert-equal(
+      susy-parse(3 wtf),
+      'ERROR [susy-parse] Unknown shorthand property: [string] `wtf`');
+  }
+
+  @include it('Unknown number parsing error') {
+    @include assert-equal(
+      susy-parse(3 156),
+      'ERROR [susy-parse] Unknown shorthand property: [number] `156`');
+
+    @include assert-equal(
+      susy-parse(3 of 12 156),
+      'ERROR [susy-parse] Unknown shorthand property: [number] `156`');
+  }
+
+  @include it('Unknown type parsing error') {
+    @include assert-equal(
+      susy-parse(3 #fff),
+      'ERROR [susy-parse] Unknown shorthand property: [color] `#fff`');
+  }
+}
+
+
+// Normalize
+// ---------
+@include describe('Susy Normalize [function]') {
+  @include it('All values') {
+    $config: (
+      'span': 'all',
+      'columns': 6,
+      'location': 'last',
+      'spread': 'wider',
+      'container-spread': 'narrow',
+    );
+
+    $expect: (
+      'span': 6,
+      'columns': (1 1 1 1 1 1),
+      'location': 1,
+      'spread': 1,
+      'container-spread': -1,
+    );
+
+    @include assert-equal(
+      susy-normalize($config),
+      $expect);
+  }
+
+  @include it('Missing Columns') {
+    @include assert-equal(
+      susy-normalize(('span': 3)),
+      ('span': 3));
+  }
+
+  @include it('Last') {
+    $config: ('columns': (1 1 2 3 5 8 13));
+    $input: (
+      'location': 'last',
+      'span': 4,
+    );
+    $expect: (
+      'location': 4,
+      'span': 4,
+    );
+    @include assert-equal(
+      susy-normalize($input, $config),
+      $expect);
+  }
+
+  @include it('All') {
+    $grid: (
+      'columns': susy-repeat(10, 5em),
+      'gutters': 0.5em,
+      'spread': 'wide',
+      'container-spread': 'wide',
+    );
+    $input: (
+      'span': 'all',
+    );
+    $expect: (
+      'span': 10,
+    );
+
+    @include assert-equal(
+      susy-normalize($input, $grid),
+      $expect);
+  }
+}
+
+
+// Normalize Span
+// --------------
+@include describe('Susy Normalize Span [funtion]') {
+  @include it('Keyword span') {
+    @include assert-equal(
+      susy-normalize-span('all', 1 1 1 1 1 1),
+      6);
+  }
+}
+
+
+// Normalize Columns
+// -----------------
+@include describe('Susy Normalize Columns [function]') {
+  @include it('Nothing to normalize') {
+    @include assert-equal(
+      susy-normalize-columns(1 1 1 1 1 1),
+      1 1 1 1 1 1);
+  }
+
+  @include it('Nothing to normalize') {
+    @include assert-equal(
+      susy-normalize-columns(1 1 1 1 1 1),
+      1 1 1 1 1 1);
+  }
+
+  @include it('Get Symmetrical Slice') {
+    $config: ('columns': susy-repeat(10, 120px));
+
+    @include assert-equal(
+      susy-normalize-columns(6, $config),
+      susy-repeat(6, 120px));
+  }
+
+  @include it('Flatten lists') {
+    $in: 20px susy-repeat(3, 100px) 20px;
+    $out: 20px 100px 100px 100px 20px;
+
+    @include assert-unequal(
+      $in
+      $out,
+      'Confirm that the list needs flattening');
+
+    @include assert-equal(
+      susy-normalize-columns($in),
+      $out,
+      'Confirm that the list is now flat');
+  }
+
+  @include it('Error on failed slice') {
+    $config: ('columns': 3 4 5);
+
+    @include assert-equal(
+      susy-normalize-columns(6, $config),
+      'ERROR [susy-normalize-columns] context-slice of `6` can not be determined based on grid-columns `3 4 5`.');
+  }
+}
+
+
+// Normalize Spread
+// ----------------
+@include describe('Susy Normalize Spread [function]') {
+  @include it('Keyword spread') {
+    @include assert-equal(
+      susy-normalize-spread('wider'),
+      1,
+      'Keyword is converted to a number for grid-math');
+  }
+
+  @include it('Numeric spread') {
+    @include assert-equal(
+      susy-normalize-spread(-1),
+      -1,
+      'Number is returned directly');
+  }
+}
+
+
+// Normalize Location
+// ------------------
+@include describe('Susy Normalize Location [function]') {
+  @include it('Numeric column position') {
+    @include assert-equal(
+      susy-normalize-location(2, 3, 1 2 3 5 8),
+      3,
+      'Valid position returns unchanged');
+  }
+
+  @include it('Initial position keyword') {
+    @include assert-equal(
+      susy-normalize-location(2, 'first', 2 4 6 8),
+      1,
+      'Valid initial keyword returns 1');
+  }
+
+  @include it('Final position keyword') {
+    @include assert-equal(
+      susy-normalize-location(2, 'last', 2 4 6 8),
+      3,
+      'Final keyword returns calculated position from end');
+  }
+}

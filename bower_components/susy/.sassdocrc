@@ -1,0 +1,23 @@
+theme: Herman
+dest: docs/
+
+display:
+  access: public
+
+package: ./package.json
+verbose: true
+groups:
+  a-config: 'Configuration'
+  b-api: 'Grid Functions'
+  plugin-utils: 'Plugin Utilities'
+  plugin_svg-grid: 'Plugin: SVG Grid Image'
+  su-math: 'Su: Core Math Engine'
+  x-normal: '[Susy Normalization]'
+  x-parser: '[Susy Syntax Parser]'
+  x-validation: '[Su Input Validation]'
+  x-version: '[Release Notes]'
+
+herman:
+  sass:
+    includepaths: ['sass']
+    includes: ['susy']

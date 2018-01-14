@@ -1,0 +1,188 @@
+// Su Validation Tests
+// ===================
+
+
+// Valid Span
+// ----------
+@include describe('Su Valid Span [function]') {
+  @include it('Arbitrary span') {
+    @include assert-equal(
+      su-valid-span(4),
+      4,
+      'A unitless span is valid');
+  }
+
+  @include it('Explicit span') {
+    @include assert-equal(
+      su-valid-span(200mm),
+      200mm,
+      'A united length is valid');
+  }
+
+  @include it('Explicit list of columns') {
+    $list: 8em 6em 4em;
+
+    @include assert-equal(
+      su-valid-span($list),
+      $list,
+      'A list of comparable columns is valid');
+  }
+
+  @include it('Mismatched list') {
+    $list: 1px 2 4em 3;
+    @include assert-equal(
+      su-valid-span($list),
+      $list);
+  }
+
+  @include it('Single-item unitless explicit list') {
+    $list: (2);
+    @include assert-equal(
+      su-valid-span($list),
+      $list);
+  }
+
+  @include it('Unknown type error') {
+    @include assert-equal(
+      su-valid-span(blue),
+      'ERROR [su-valid-span] [color] `blue` is not a valid number, length, or column-list for $span.');
+  }
+}
+
+
+// Valid Columns
+// -------------
+@include describe('Su Valid Columns [function]') {
+  @include it('Fluid columns') {
+    @include assert-equal(
+      su-valid-columns(1 2 4 2),
+      1 2 4 2);
+  }
+
+  @include it('No single columns') {
+    @include assert-equal(
+      su-valid-columns(4, 'silent-fail'),
+      null,
+      'Has no units');
+
+    @include assert-equal(
+      su-valid-columns(20em, 'silent-fail'),
+      null,
+      'Has units');
+  }
+
+  @include it('Static columns') {
+    @include assert-equal(
+      su-valid-columns(10cm 200mm 45cm 230mm),
+      10cm 200mm 45cm 230mm);
+  }
+
+  @include it('Mismatched units') {
+    $list: 1px 2 4em 3;
+    @include assert-equal(
+      su-valid-columns($list),
+      $list);
+  }
+
+  @include it('Silent failure') {
+    @include assert-equal(
+      su-valid-columns('hello world', 'silent-failure'),
+      null);
+  }
+
+  @include it('Mismatched unitless') {
+    $list: 1 2 4em 3;
+    @include assert-equal(
+      su-valid-columns($list),
+      $list);
+
+    $list: 1em 2 4em 3;
+
+    @include assert-equal(
+      su-valid-columns($list),
+      $list);
+  }
+}
+
+
+// Valid Gutters
+// -------------
+@include describe('Su Valid Gutters [function]') {
+  @include it('Fluid') {
+    @include assert-equal(
+      su-valid-gutters(0.75),
+      0.75,
+      'A unitless number is a valid setting for gutters');
+  }
+
+  @include it('Static') {
+    @include assert-equal(
+      su-valid-gutters(3cm),
+      3cm,
+      'Any length is a valid setting for gutters');
+  }
+
+  @include it('Invalid gutters error') {
+    @include assert-equal(
+      su-valid-gutters('wtf'),
+      'ERROR [su-valid-gutters] [string] `#{inspect("wtf")}` is not a number or length for $gutters.')
+  }
+}
+
+
+// Valid Spread
+// ------------
+@include describe('Su Valid Spread [function]') {
+  @include it('Numeric spread') {
+    @include assert-equal(
+      su-valid-spread(-1),
+      -1,
+      'Valid number is returned directly');
+  }
+
+  @include it('Unknown spread error') {
+    @include assert-equal(
+      su-valid-spread(4),
+      'ERROR [su-valid-spread] [number] `4` is not a normalized [0 | 1 | -1] value for `$spread`.');
+  }
+}
+
+
+// Valid Location
+// --------------
+@include describe('Su Valid Location [function]') {
+  @include it('Numeric column position') {
+    @include assert-equal(
+      su-valid-location(2, 3, 1 2 3 5 8),
+      3,
+      'Valid position returns unchanged');
+  }
+
+  @include it('Location units error') {
+    @include assert-equal(
+      su-valid-location(2, 3em, 1 2 3 5 8),
+      'ERROR [su-valid-location] [number] `3em` is not a unitless number for $location.');
+  }
+
+  @include it('Location floating-point error') {
+    @include assert-equal(
+      su-valid-location(2, 3.5, 1 2 3 5 8),
+      'ERROR [su-valid-location] Location (`3.5`) must be a 1-indexed intiger position.');
+  }
+
+  @include it('Location off-grid error') {
+    @include assert-equal(
+      su-valid-location(2, 8, 1 2 3 5 8),
+      'ERROR [su-valid-location] Position `8` does not exist in grid `1 2 3 5 8`.');
+
+    @include assert-equal(
+      su-valid-location(2, -2, 1 2 3 5 8),
+      'ERROR [su-valid-location] Position `-2` does not exist in grid `1 2 3 5 8`.');
+  }
+
+  @include it('Location/span combination error') {
+    @include assert-equal(
+      su-valid-location(6, 3, 1 2 3 5 8),
+      'ERROR [su-valid-location] There are not enough columns in grid `1 2 3 5 8` for span `6` at `3`.');
+  }
+}
