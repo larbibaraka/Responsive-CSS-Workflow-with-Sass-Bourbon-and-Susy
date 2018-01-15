@@ -1,0 +1,17 @@
+nav {
+
+  ul{
+    list-style: none;
+  }
+
+  li {
+    display: inline-block;
+  }
+  a{
+    padding: 0 10px;
+    &:hover{
+      color: $red;
+    }
+  }
+
+}

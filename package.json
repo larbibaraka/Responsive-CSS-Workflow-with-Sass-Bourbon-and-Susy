@@ -1,13 +1,28 @@
 {
-  "name": "learningsass",
+  "name": "responsive-css-workflow-with-sass-bourbon-and-susy",
   "version": "0.0.1",
-  "description": "this is a project to learn sass",
+  "description": "learn sass with susy from lynda",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Larbi baraka",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/larbibaraka/Responsive-CSS-Workflow-with-Sass-Bourbon-and-Susy.git"
+  },
+  "keywords": [
+    "sass",
+    "larbi",
+    "baraka",
+    "susy",
+    "lynda"
+  ],
+  "author": "Larbi Baraka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/larbibaraka/Responsive-CSS-Workflow-with-Sass-Bourbon-and-Susy/issues"
+  },
+  "homepage": "https://github.com/larbibaraka/Responsive-CSS-Workflow-with-Sass-Bourbon-and-Susy#readme",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-uglify": "^3.3.0",

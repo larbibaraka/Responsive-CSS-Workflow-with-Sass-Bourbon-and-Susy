@@ -1,7 +1,25 @@
-p {
-  color: #125361; }
+nav ul {
+  list-style: none; }
 
-li {
-  color: red; }
-  li a {
-    font-size: 20px; }
+nav li {
+  display: inline-block; }
+
+nav a {
+  padding: 0 10px; }
+  nav a:hover {
+    color: #b92a16; }
+
+.site-header {
+  background: #231f20; }
+
+.site-title {
+  color: #e8e8e8; }
+
+.header-nav a {
+  color: #e8e8e8; }
+
+.site-footer {
+  background: #414a4c; }
+
+.social-menu a {
+  color: #09acc1; }

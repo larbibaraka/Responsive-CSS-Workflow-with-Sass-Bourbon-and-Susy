@@ -1,6 +1,9 @@
+//@import 'bower_components/bourbon/core/bourbon';
+//@import 'bower_components/normalize-css/normalize';
+//@import 'bower_components/susy/sass/susy';
+@import 'partials/variables';
 @import 'partials/base';
 @import 'partials/header';
 @import 'partials/layout';
 @import 'partials/footer';
 @import 'partials/modules';
-@import 'partials/variables';
