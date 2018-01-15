@@ -1,14 +1,6 @@
-$Primarycolor : #125361;
-
-p {
-
-    color:  $Primarycolor;
-
-}
-
-li {
-    color :red;
-    a {
-        font-size: 20px;
-    }
-}
+@import 'partials/base';
+@import 'partials/header';
+@import 'partials/layout';
+@import 'partials/footer';
+@import 'partials/modules';
+@import 'partials/variables';
