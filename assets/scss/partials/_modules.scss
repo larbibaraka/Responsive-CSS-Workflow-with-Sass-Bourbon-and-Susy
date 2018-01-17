@@ -1,0 +1,20 @@
+.hero .overlay{
+  background: rgba($red, .6);
+}
+
+.hero{
+    text-align: center;
+  color: #fff;
+}
+.hero .wrap {
+  padding: 60px 0;
+}
+
+.feature img{
+  @include size(250px , auto);
+}
+
+.customer img {
+  @include size(150px);
+  border-radius : $default-border-radius;
+}

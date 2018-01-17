@@ -1,3 +1,37 @@
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display|Raleway");
+body {
+  font-family: "Raleway", sans-serif;
+  color: #231f20;
+  font-size: 16px;
+  line-height: 1.6; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display", serif; }
+
+[type='color'], [type='date'], [type='datetime'], [type='datetime-local'], [type='email'], [type='month'], [type='number'], [type='password'], [type='search'], [type='tel'], [type='text'], [type='time'], [type='url'], [type='week'], input:not([type]), textarea {
+  border: 1px solid #09acc1;
+  padding: 10px; }
+
+[type='color']:focus, [type='date']:focus, [type='datetime']:focus, [type='datetime-local']:focus, [type='email']:focus, [type='month']:focus, [type='number']:focus, [type='password']:focus, [type='search']:focus, [type='tel']:focus, [type='text']:focus, [type='time']:focus, [type='url']:focus, [type='week']:focus, input:not([type]):focus, textarea:focus,
+[type='color']:hover, [type='date']:hover, [type='datetime']:hover, [type='datetime-local']:hover, [type='email']:hover, [type='month']:hover, [type='number']:hover, [type='password']:hover, [type='search']:hover, [type='tel']:hover, [type='text']:hover, [type='time']:hover, [type='url']:hover, [type='week']:hover, input:not([type]):hover, textarea:hover,
+[type='color']:active, [type='date']:active, [type='datetime']:active, [type='datetime-local']:active, [type='email']:active, [type='month']:active, [type='number']:active, [type='password']:active, [type='search']:active, [type='tel']:active, [type='text']:active, [type='time']:active, [type='url']:active, [type='week']:active, input:not([type]):active, textarea:active {
+  border: 1px solid #e8e8e8;
+  color: #09acc1; }
+
+button, [type='button'], [type='reset'], [type='submit'] {
+  background-color: #09acc1;
+  border: 1px solid #e8e8e8;
+  padding: 10px;
+  color: white;
+  cursor: pointer; }
+
+button:focus, [type='button']:focus, [type='reset']:focus, [type='submit']:focus,
+button:hover, [type='button']:hover, [type='reset']:hover, [type='submit']:hover,
+button:active, [type='button']:active, [type='reset']:active, [type='submit']:active {
+  background-color: #e8e8e8;
+  border: 1px solid #09acc1;
+  color: #09acc1; }
+
 nav ul {
   list-style: none; }
 
@@ -19,7 +53,37 @@ nav a {
   color: #e8e8e8; }
 
 .site-footer {
-  background: #414a4c; }
+  background: #414a4c;
+  height: 40px; }
 
 .social-menu a {
-  color: #09acc1; }
+  color: #09acc1;
+  text-decoration: none; }
+  .social-menu a:before {
+    font-family: FontAwesome;
+    padding: 0 5px 0 0; }
+  .social-menu a.twitter:before {
+    content: '\f099'; }
+  .social-menu a.facebook:before {
+    content: '\f09a'; }
+  .social-menu a.linkedin:before {
+    content: '\f0e1'; }
+
+.hero .overlay {
+  background: rgba(185, 42, 22, 0.6); }
+
+.hero {
+  text-align: center;
+  color: #fff; }
+
+.hero .wrap {
+  padding: 60px 0; }
+
+.feature img {
+  height: auto;
+  width: 250px; }
+
+.customer img {
+  height: 150px;
+  width: 150px;
+  border-radius: 20px; }

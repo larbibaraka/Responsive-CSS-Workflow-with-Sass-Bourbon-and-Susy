@@ -1,5 +1,47 @@
-nav {
+body{
+  font-family: $sans-serif;
+  color: $black;
+  font-size: 16px;
+  line-height: 1.6;
+}
+h1,h2,h3,h4,h5,h6{
+  font-family: $serif;
+}
+// Forms
+#{$all-text-inputs} {
+  border: 1px solid $blue;
+  padding: 10px;
+  //display: block;
+  //margin-bottom: 10px;
+}
+#{$all-text-inputs-focus},
+#{$all-text-inputs-hover},
+#{$all-text-inputs-active}
+{
+   border: 1px solid $gray;
+  color: $blue;
+}
 
+#{$all-buttons} {
+  background-color: $blue;
+  border: 1px solid $gray;
+  padding: 10px;
+  color: white;
+
+  cursor: pointer;
+
+}
+
+#{$all-buttons-focus},
+#{$all-buttons-hover},
+#{$all-buttons-active}
+{
+  background-color: $gray;
+  border: 1px solid $blue;
+  color: $blue;
+}
+
+nav {
   ul{
     list-style: none;
   }
